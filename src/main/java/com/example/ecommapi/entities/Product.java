@@ -2,6 +2,7 @@ package com.example.ecommapi.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,6 +31,8 @@ public class Product {
      private double stars;
      @Column(length = 2000)
      private String description;
+     @Column(name = "featured", columnDefinition = "boolean default false")
+     private boolean featured;
      private String company;
      @OneToMany(mappedBy = "product")
      private Collection<LigneCommande> ligneCommandeCollection;

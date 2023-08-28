@@ -3,6 +3,7 @@ package com.example.ecommapi.controllers;
 import com.example.ecommapi.entities.Product;
 import com.example.ecommapi.services.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -19,11 +20,17 @@ public class ProductController {
         return productService.getProducts();
     }
     @GetMapping("/getSingleProduct/{id}")
-    public Product getSingleProduct(@PathVariable UUID id){
+    public Product getSingleProduct(@PathVariable("id") UUID id){
         return productService.getSingleProduct(id);
     }
 
-    @PostMapping("/insertProduct")
+    @GetMapping("/Checkout")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public void checkoutTest(){
+        System.out.println("access");
+    }
+
+    /*@PostMapping("/insertProduct")
     public Product insertProduct(@RequestBody Product product){
         Product product1 = new Product();
         product1.setName(product.getName());
@@ -39,5 +46,5 @@ public class ProductController {
         product1.setImgURL(product.getImgURL());
 
         return product1;
-    }
+    }*/
 }
