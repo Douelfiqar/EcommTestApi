@@ -1,5 +1,6 @@
 package com.example.ecommapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,7 +35,8 @@ public class Product {
      @Column(name = "featured", columnDefinition = "boolean default false")
      private boolean featured;
      private String company;
-     @OneToMany(mappedBy = "product")
+     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
      private Collection<LigneCommande> ligneCommandeCollection;
     
 }

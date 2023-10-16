@@ -1,27 +1,41 @@
 package com.example.ecommapi.controllers;
 
 import com.example.ecommapi.entities.Product;
+import com.example.ecommapi.repositories.ProductRepo;
 import com.example.ecommapi.services.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.UUID;
+import java.awt.print.Pageable;
+import java.util.*;
 
 @RestController
 @AllArgsConstructor
 public class ProductController {
 
     private ProductService productService;
+    private ProductRepo productRepo;
 
-    @GetMapping("/getAllProducts")
-    public Collection<Product> getProducts(){
-        return productService.getProducts();
+    @GetMapping(value = "/getAllProducts", produces = "application/json")
+    public ResponseEntity<List<Product>> getProducts(@RequestParam(defaultValue = "0") Integer pageCurrent,
+                                                     @RequestParam(defaultValue = "9") Integer pageSize) {
+        List<Product> products = productService.getProducts(pageCurrent, pageSize);
+        return ResponseEntity.ok(products);
     }
+    @GetMapping("/getCountProduct")
+    public ResponseEntity<Integer> getCountProduct() {
+        Long totalProduct = productRepo.count();
+        Integer totalPages = (int) Math.round(totalProduct / 10);
+        return ResponseEntity.ok(totalPages);
+    }
+
     @GetMapping("/getSingleProduct/{id}")
-    public Product getSingleProduct(@PathVariable("id") UUID id){
-        return productService.getSingleProduct(id);
+    public Product getSingleProduct(@PathVariable UUID id){
+        Product product = productService.getSingleProduct(id);
+        return product;
     }
 
     @GetMapping("/Checkout")
@@ -29,22 +43,11 @@ public class ProductController {
     public void checkoutTest(){
         System.out.println("access");
     }
+    @GetMapping("/featuredProducts")
+    public Collection<Product> findAllFeaturedProducts(){
+        Collection<Product> productCollection = new ArrayList<>();
+        productCollection = productService.findAllFeaturedProducts();
+        return productCollection;
+    }
 
-    /*@PostMapping("/insertProduct")
-    public Product insertProduct(@RequestBody Product product){
-        Product product1 = new Product();
-        product1.setName(product.getName());
-        product1.setCategory(product.getName());
-        product1.setCompany(product.getCompany());
-        product1.setDescription(product.getDescription());
-        product1.setPrice(product.getPrice());
-        product1.setReviews(product.getReviews());
-        product1.setStars(product.getStars());
-        product1.setStock(product.getStock());
-        product1.setShipping(true);
-        product1.setColors(product.getColors());
-        product1.setImgURL(product.getImgURL());
-
-        return product1;
-    }*/
 }
