@@ -33,9 +33,9 @@ public class ProductController {
     }
 
     @GetMapping("/getSingleProduct/{id}")
-    public Product getSingleProduct(@PathVariable UUID id){
+    public ResponseEntity<Product> getSingleProduct(@PathVariable UUID id){
         Product product = productService.getSingleProduct(id);
-        return product;
+        return ResponseEntity.ok(product);
     }
 
     @GetMapping("/Checkout")
@@ -44,10 +44,10 @@ public class ProductController {
         System.out.println("access");
     }
     @GetMapping("/featuredProducts")
-    public Collection<Product> findAllFeaturedProducts(){
+    public ResponseEntity<Collection<Product>> findAllFeaturedProducts(){
         Collection<Product> productCollection = new ArrayList<>();
         productCollection = productService.findAllFeaturedProducts();
-        return productCollection;
+        return ResponseEntity.ok(productCollection);
     }
 
 }

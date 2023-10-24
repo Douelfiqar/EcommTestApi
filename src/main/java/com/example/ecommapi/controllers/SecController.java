@@ -1,15 +1,15 @@
 package com.example.ecommapi.controllers;
 
+import com.example.ecommapi.entities.User;
+import com.example.ecommapi.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -22,10 +22,8 @@ public class SecController {
 
     private AuthenticationManager authenticationManager;
     private JwtEncoder jwtEncoder;
-    //@GetMapping("/profile")
-   // public Authentication authentication(Authentication authentication){
-      //  return authentication;
-    //}
+    private UserService userService;
+    private PasswordEncoder passwordEncoder;
     @PostMapping("/login")
     public Map<String, String> login(String username, String password){
 
@@ -45,5 +43,28 @@ public class SecController {
         );
         String jwt = jwtEncoder.encode(jwtEncoderParameters).getTokenValue();
         return Map.of("accessToken", jwt);
+    }
+
+    @PostMapping("/signup")
+    public Map<String, String> signup(@RequestBody User userParam){
+
+        User user = userService.addUser(userParam.getUsername(), passwordEncoder.encode(userParam.getPassword()), userParam.getEmail(), userParam.getPhoneNumber(), userParam.getName());
+        if(!(user == null)) {
+            Instant instant = Instant.now();
+
+            JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
+                    .issuedAt(instant.plus(10, ChronoUnit.MINUTES))
+                    .subject(userParam.getUsername())
+                    .claim("scope", "user")
+                    .build();
+
+            JwtEncoderParameters jwtEncoderParameters = JwtEncoderParameters.from(
+                    JwsHeader.with(MacAlgorithm.HS512).build(),
+                    jwtClaimsSet
+            );
+            String jwt = jwtEncoder.encode(jwtEncoderParameters).getTokenValue();
+            return Map.of("accessToken", jwt);
+        }
+        return Map.of("accessToken", null);
     }
 }

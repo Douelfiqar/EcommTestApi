@@ -2,6 +2,10 @@ package com.example.ecommapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,8 +21,12 @@ public class Product {
      @Id
      @GeneratedValue(strategy = GenerationType.UUID)
      private UUID id;
+     @NotBlank
      private String name;
+     @Size(min = 0, message = "The stock cannot be < 0")
      private int stock;
+     @Size(min = 0, message = "The price cannot be < 0")
+     @NotNull
      private double price;
      private boolean shipping;
      @ElementCollection(fetch = FetchType.EAGER)  // Specified fetch type
