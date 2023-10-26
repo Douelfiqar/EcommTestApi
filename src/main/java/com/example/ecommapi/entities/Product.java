@@ -13,10 +13,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Data @AllArgsConstructor @NoArgsConstructor
+@Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class Product {
      @Id
      @GeneratedValue(strategy = GenerationType.UUID)
@@ -36,8 +37,8 @@ public class Product {
      @ElementCollection(fetch = FetchType.EAGER)  // Specified fetch type
      @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
      private Collection<String> imgURL = new ArrayList<>();
-     private int reviews;
-     private double stars;
+     private Integer reviews;
+     private Double stars;
      @Column(length = 2000)
      private String description;
      @Column(name = "featured", columnDefinition = "boolean default false")
@@ -46,5 +47,7 @@ public class Product {
      @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
      @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
      private Collection<LigneCommande> ligneCommandeCollection;
+     @OneToMany
+     private List<CartProduct> cartProductList;
     
 }
