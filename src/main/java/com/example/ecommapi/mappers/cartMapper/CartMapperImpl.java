@@ -1,4 +1,4 @@
-package com.example.ecommapi.mappers;
+package com.example.ecommapi.mappers.cartMapper;
 
 import com.example.ecommapi.DTOs.cartDto.AddNewCartRequest;
 import com.example.ecommapi.DTOs.cartDto.AddOldCartRequest;
@@ -7,8 +7,9 @@ import com.example.ecommapi.DTOs.productDto.ProductResponse;
 import com.example.ecommapi.entities.Cart;
 import com.example.ecommapi.entities.CartProduct;
 import com.example.ecommapi.entities.Product;
+import com.example.ecommapi.mappers.cartMapper.CartMapper;
+import com.example.ecommapi.mappers.productsMapper.ProductMapperImpl;
 import com.example.ecommapi.repositories.CartProductRepo;
-import com.example.ecommapi.repositories.ProductRepo;
 import com.example.ecommapi.services.CartService;
 import com.example.ecommapi.services.ProductService;
 import lombok.AllArgsConstructor;
@@ -16,11 +17,12 @@ import lombok.AllArgsConstructor;
 import java.util.Date;
 
 @AllArgsConstructor
-public class CartMapperImpl implements  CartMapper{
+public class CartMapperImpl implements CartMapper {
 
     private ProductService productService;
     private CartService cartService;
     private CartProductRepo cartProductRepo;
+    private ProductMapperImpl productMapper;
     @Override
     public CartProduct addOldCartRequesttToCartProduct(AddOldCartRequest addOldCartRequest) {
         if(addOldCartRequest == null)
@@ -69,20 +71,7 @@ public class CartMapperImpl implements  CartMapper{
 
         Product product = productService.getSingleProduct(cartProduct.getId());
 
-        ProductResponse productResponse = ProductResponse.builder()
-                .category(product.getCategory())
-                .name(product.getName())
-                .company(product.getCompany())
-                .description(product.getDescription())
-                .stars(product.getStars())
-                .stock(product.getStock())
-                .featured(product.isFeatured())
-                .price(product.getPrice())
-                .reviews(product.getReviews())
-                .shipping(product.isShipping())
-                .imgUrl(product.getImgURL())
-                .colors(product.getColors())
-                .id(product.getId()).build();
+        ProductResponse productResponse = productMapper.productToProductResponse(product);
 
         CartResponse cartResponse = CartResponse.builder()
                 .quantity(cartProduct.getQuantity())

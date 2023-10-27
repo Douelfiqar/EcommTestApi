@@ -3,11 +3,12 @@ package com.example.ecommapi.mappersTest;
 import com.example.ecommapi.DTOs.cartDto.AddNewCartRequest;
 import com.example.ecommapi.DTOs.cartDto.AddOldCartRequest;
 import com.example.ecommapi.DTOs.cartDto.CartResponse;
+import com.example.ecommapi.DTOs.productDto.ProductResponse;
 import com.example.ecommapi.entities.Cart;
 import com.example.ecommapi.entities.CartProduct;
 import com.example.ecommapi.entities.Product;
-import com.example.ecommapi.mappers.CartMapper;
-import com.example.ecommapi.mappers.CartMapperImpl;
+import com.example.ecommapi.mappers.cartMapper.CartMapperImpl;
+import com.example.ecommapi.mappers.productsMapper.ProductMapperImpl;
 import com.example.ecommapi.repositories.CartProductRepo;
 import com.example.ecommapi.services.CartService;
 import com.example.ecommapi.services.ProductService;
@@ -30,13 +31,14 @@ public class CartMapperTest {
     CartService cartService;
     @Mock
     CartProductRepo cartProductRepo;
-
+    @Mock
+    ProductMapperImpl productMapper;
     CartMapperImpl cartMapperImpl;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this); // Initialize the mocks
-        cartMapperImpl = new CartMapperImpl(productService, cartService, cartProductRepo) {
+        cartMapperImpl = new CartMapperImpl(productService, cartService, cartProductRepo, productMapper) {
         };
     }
 
@@ -160,7 +162,26 @@ public class CartMapperTest {
                 .product(product)
                 .cart(cart)
                 .build();
+
+        ProductResponse productResponse = ProductResponse.builder()
+                .category(product.getCategory())
+                .name(product.getName())
+                .company(product.getCompany())
+                .description(product.getDescription())
+                .stars(product.getStars())
+                .stock(product.getStock())
+                .featured(product.isFeatured())
+                .price(product.getPrice())
+                .reviews(product.getReviews())
+                .shipping(product.isShipping())
+                .imgUrl(product.getImgURL())
+                .colors(product.getColors())
+                .id(product.getId()).build();
+
+
         Mockito.when(productService.getSingleProduct(id_product)).thenReturn(product);
+        Mockito.when(productMapper.productToProductResponse(product)).thenReturn(productResponse);
+
         CartResponse cartResponse = cartMapperImpl.CartProductToCartResponse(cartProduct);
 
         Assertions.assertThat(cartResponse).isNotNull();

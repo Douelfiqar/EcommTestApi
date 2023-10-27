@@ -1,4 +1,4 @@
-package com.example.ecommapi.mappers;
+package com.example.ecommapi.mappers.cartMapper;
 
 import com.example.ecommapi.DTOs.cartDto.AddNewCartRequest;
 import com.example.ecommapi.DTOs.cartDto.AddOldCartRequest;
