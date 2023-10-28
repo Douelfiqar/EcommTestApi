@@ -17,4 +17,6 @@ public class Cart {
     private UUID id;
     @OneToMany(fetch = FetchType.EAGER)
     private List<CartProduct> cartProductList;
+    @OneToOne
+    private User user;
 }

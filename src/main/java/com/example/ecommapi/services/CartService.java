@@ -4,7 +4,7 @@ import com.example.ecommapi.entities.Cart;
 import java.util.UUID;
 
 public interface CartService {
-    public Cart getCart(UUID id);
+    public Cart getCart(UUID user_id);
 
     public Cart addCart(UUID cart_id, int quantity, String color, UUID product_id);
 

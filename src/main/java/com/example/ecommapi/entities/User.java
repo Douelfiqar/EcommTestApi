@@ -31,4 +31,6 @@ public class User {
     private Collection<Commande> commandesList;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<AppRole> appRoleCollection;
+    @OneToOne
+    private Cart cart;
 }
