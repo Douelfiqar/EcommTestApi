@@ -3,7 +3,9 @@ package com.example.ecommapi.mappers.productsMapper;
 import com.example.ecommapi.DTOs.productDto.ProductRequest;
 import com.example.ecommapi.DTOs.productDto.ProductResponse;
 import com.example.ecommapi.entities.Product;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProductMapperImpl implements ProductMapper {
     @Override
     public ProductResponse productToProductResponse(Product product) {
