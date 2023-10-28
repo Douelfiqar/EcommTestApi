@@ -1,10 +1,11 @@
-package com.example.ecommapi.services;
+package com.example.ecommapi.services.serviceImpl;
 
 
 import com.example.ecommapi.entities.AppRole;
 import com.example.ecommapi.entities.User;
 import com.example.ecommapi.repositories.AppRoleRepo;
 import com.example.ecommapi.repositories.UserRepo;
+import com.example.ecommapi.services.AccountService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @Service
 @Transactional
 @AllArgsConstructor
-public class AccountServiceImp implements AccountService{
+public class AccountServiceImp implements AccountService {
     private UserRepo userRepo;
     private AppRoleRepo appRoleRepo;
     // private PasswordEncoder passwordEncoder;

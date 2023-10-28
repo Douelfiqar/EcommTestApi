@@ -1,6 +1,6 @@
 package com.example.ecommapi.security;
 
-import com.example.ecommapi.services.UserDetailServiceImpl;
+import com.example.ecommapi.services.serviceImpl.UserDetailServiceImpl;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

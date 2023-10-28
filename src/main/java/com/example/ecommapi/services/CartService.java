@@ -1,24 +1,14 @@
 package com.example.ecommapi.services;
 
 import com.example.ecommapi.entities.Cart;
-import com.example.ecommapi.repositories.CartRepo;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.text.Format;
 import java.util.UUID;
 
-@Service
-@AllArgsConstructor
-public class CartService {
+public interface CartService {
+    public Cart getCart(UUID id);
 
-    private CartRepo cartRepo;
+    public Cart addCart(UUID cart_id, int quantity, String color, UUID product_id);
 
-    public Cart save(Cart cart){
-        return cartRepo.save(cart);
-    }
-    public Cart getCart(UUID id){
-        Cart cart = cartRepo.findById(id).orElseThrow();
-        return cart;
-    }
+    public Cart cartUpdate(UUID cartProduct_id, int quantity, String color);
+    public void deleteCart(UUID cart_id);
 }

@@ -1,7 +1,7 @@
 package com.example.ecommapi.controllers;
 
 import com.example.ecommapi.entities.User;
-import com.example.ecommapi.services.UserService;
+import com.example.ecommapi.services.serviceImpl.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +22,7 @@ public class SecController {
 
     private AuthenticationManager authenticationManager;
     private JwtEncoder jwtEncoder;
-    private UserService userService;
+    private UserServiceImpl userService;
     private PasswordEncoder passwordEncoder;
     @PostMapping("/login")
     public Map<String, String> login(String username, String password){

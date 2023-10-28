@@ -1,6 +1,7 @@
-package com.example.ecommapi.services;
+package com.example.ecommapi.services.serviceImpl;
 
 import com.example.ecommapi.entities.User;
+import com.example.ecommapi.services.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

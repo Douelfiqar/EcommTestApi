@@ -12,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 public interface CartMapper {
 //    CartMapper INSTANCE = Mappers.getMapper(CartMapper.class);
 
-    CartProduct addOldCartRequesttToCartProduct(AddOldCartRequest addOldCartRequest);
+    CartProduct addOldCartRequestToCart(AddOldCartRequest addOldCartRequest);
     CartProduct addNewCartRequesttToCartProduct(AddNewCartRequest addNewCartRequest);
     CartResponse CartProductToCartResponse(CartProduct cartProduct);
 }

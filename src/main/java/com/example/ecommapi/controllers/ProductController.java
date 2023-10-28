@@ -4,14 +4,12 @@ import com.example.ecommapi.DTOs.productDto.ProductResponse;
 import com.example.ecommapi.entities.Product;
 import com.example.ecommapi.mappers.productsMapper.ProductMapperImpl;
 import com.example.ecommapi.repositories.ProductRepo;
-import com.example.ecommapi.services.ProductService;
+import com.example.ecommapi.services.serviceImpl.ProductServiceImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,7 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ProductController {
 
-    private ProductService productService;
+    private ProductServiceImpl productService;
     private ProductRepo productRepo;
     private ProductMapperImpl productMapper;
 

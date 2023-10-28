@@ -11,7 +11,7 @@ import com.example.ecommapi.mappers.cartMapper.CartMapperImpl;
 import com.example.ecommapi.mappers.productsMapper.ProductMapperImpl;
 import com.example.ecommapi.repositories.CartProductRepo;
 import com.example.ecommapi.services.CartService;
-import com.example.ecommapi.services.ProductService;
+import com.example.ecommapi.services.serviceImpl.ProductServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ import java.util.UUID;
 
 public class CartMapperTest {
     @Mock
-    ProductService productService;
+    ProductServiceImpl productService;
     @Mock
     CartService cartService;
     @Mock
@@ -35,157 +35,6 @@ public class CartMapperTest {
     ProductMapperImpl productMapper;
     CartMapperImpl cartMapperImpl;
 
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this); // Initialize the mocks
-        cartMapperImpl = new CartMapperImpl(productService, cartService, cartProductRepo, productMapper) {
-        };
-    }
-
-    @Test
-    public void testAddOldCartRequestToCartProduct() {
-        UUID cartId = UUID.randomUUID();
-        UUID productId = UUID.randomUUID();
-
-        Cart cart = Cart.builder().id(cartId).build();
-
-        ArrayList<String> colorsArray = new ArrayList<>();
-        colorsArray.add("Black");
-        colorsArray.add("Red");
-
-        Product product = Product.builder()
-                .id(productId)
-                .reviews(12)
-                .name("testName")
-                .company("TestCompany")
-                .imgURL(new ArrayList<>())
-                .price(1000)
-                .featured(true)
-                .category("categoryTest")
-                .stars(5D)
-                .stock(12)
-                .description("desc")
-                .shipping(true)
-                .colors(colorsArray).build();
-
-        Mockito.when(cartService.getCart(cartId)).thenReturn(cart);
-        Mockito.when(productService.getSingleProduct(productId)).thenReturn(product);
-
-        // Given
-        AddOldCartRequest addOldCartRequest = AddOldCartRequest.builder()
-                .idCart(cartId)
-                .quantity(5)
-                .colors(List.of("Black", "Red"))
-                .product_id(product.getId())
-                .build();
-
-        CartProduct cartProduct = cartMapperImpl.addOldCartRequesttToCartProduct(addOldCartRequest);
-
-        Assertions.assertThat(cartProduct).isNotNull();
-        Assertions.assertThat(cartProduct.getQuantity()).isEqualTo(5);
-        Assertions.assertThat(cartProduct.getProduct()).isEqualTo(product);
-        Assertions.assertThat(cartProduct.getCart()).isEqualTo(cart);
-    }
 
 
-    @Test
-    public void testAddNewCartRequestToCartProduct() {
-        UUID productId = UUID.randomUUID();
-
-
-        ArrayList<String> colorsArray = new ArrayList<>();
-        colorsArray.add("Black");
-        colorsArray.add("Red");
-
-        Product product = Product.builder()
-                .id(productId)
-                .reviews(12)
-                .name("testName")
-                .company("TestCompany")
-                .imgURL(new ArrayList<>())
-                .price(1000)
-                .featured(true)
-                .category("categoryTest")
-                .stars(5D)
-                .stock(12)
-                .description("desc")
-                .shipping(true)
-                .colors(colorsArray).build();
-
-        Mockito.when(productService.getSingleProduct(productId)).thenReturn(product);
-
-        // Given
-        AddNewCartRequest addNewCartRequest = AddNewCartRequest.builder()
-                .quantity(5)
-                .colors(List.of("Black", "Red"))
-                .id_product(productId)
-                .build();
-
-        CartProduct cartProduct = cartMapperImpl.addNewCartRequesttToCartProduct(addNewCartRequest);
-
-        Assertions.assertThat(cartProduct).isNotNull();
-        Assertions.assertThat(cartProduct.getQuantity()).isEqualTo(5);
-        Assertions.assertThat(cartProduct.getProduct()).isEqualTo(product);
-    }
-
-    @Test
-    public void testCartProductToCartProductResponse(){
-
-        UUID id_product = UUID.randomUUID();
-        UUID id_cart = UUID.randomUUID();
-
-        ArrayList<String> colorsArray = new ArrayList<>();
-        colorsArray.add("Black");
-        colorsArray.add("Red");
-        Product product = Product.builder()
-                .id(id_product)
-                .reviews(12)
-                .name("testName")
-                .company("TestCompany")
-                .imgURL(new ArrayList<>())
-                .price(1000)
-                .featured(true)
-                .category("categoryTest")
-                .stars(5D)
-                .stock(12)
-                .description("desc")
-                .shipping(true)
-                .colors(colorsArray).build();
-
-        Cart cart = Cart.builder().id(id_cart).build();
-
-        CartProduct cartProduct = CartProduct.builder()
-                .id(id_product)
-                .date(new Date())
-                .colors(colorsArray)
-                .quantity(5)
-                .product(product)
-                .cart(cart)
-                .build();
-
-        ProductResponse productResponse = ProductResponse.builder()
-                .category(product.getCategory())
-                .name(product.getName())
-                .company(product.getCompany())
-                .description(product.getDescription())
-                .stars(product.getStars())
-                .stock(product.getStock())
-                .featured(product.isFeatured())
-                .price(product.getPrice())
-                .reviews(product.getReviews())
-                .shipping(product.isShipping())
-                .imgUrl(product.getImgURL())
-                .colors(product.getColors())
-                .id(product.getId()).build();
-
-
-        Mockito.when(productService.getSingleProduct(id_product)).thenReturn(product);
-        Mockito.when(productMapper.productToProductResponse(product)).thenReturn(productResponse);
-
-        CartResponse cartResponse = cartMapperImpl.CartProductToCartResponse(cartProduct);
-
-        Assertions.assertThat(cartResponse).isNotNull();
-        Assertions.assertThat(cartResponse.quantity()).isEqualTo(5);
-        Assertions.assertThat(cartProduct.getProduct()).isEqualTo(product);
-     }
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +15,6 @@ import java.util.UUID;
 public class Cart {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<CartProduct> cartProductList;
 }
