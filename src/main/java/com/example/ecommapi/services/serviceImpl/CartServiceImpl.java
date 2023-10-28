@@ -1,22 +1,12 @@
 package com.example.ecommapi.services.serviceImpl;
 
-import com.example.ecommapi.DTOs.cartDto.AddNewCartRequest;
-import com.example.ecommapi.DTOs.cartDto.AddOldCartRequest;
-import com.example.ecommapi.DTOs.cartDto.CartResponse;
 import com.example.ecommapi.entities.Cart;
 import com.example.ecommapi.entities.CartProduct;
-import com.example.ecommapi.entities.Product;
-import com.example.ecommapi.mappers.cartMapper.CartMapper;
-import com.example.ecommapi.mappers.cartMapper.CartMapperImpl;
 import com.example.ecommapi.repositories.CartRepo;
-import com.example.ecommapi.repositories.ProductRepo;
 import com.example.ecommapi.services.CartProductService;
 import com.example.ecommapi.services.CartService;
-import com.example.ecommapi.services.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.text.Format;
 import java.util.UUID;
 
 @Service

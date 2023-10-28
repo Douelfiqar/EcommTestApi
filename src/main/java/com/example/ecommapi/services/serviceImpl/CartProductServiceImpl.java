@@ -1,16 +1,13 @@
 package com.example.ecommapi.services.serviceImpl;
 
-import com.example.ecommapi.DTOs.productDto.ProductRequest;
 import com.example.ecommapi.entities.Cart;
 import com.example.ecommapi.entities.CartProduct;
 import com.example.ecommapi.entities.Product;
 import com.example.ecommapi.repositories.CartProductRepo;
-import com.example.ecommapi.repositories.CartRepo;
 import com.example.ecommapi.services.CartProductService;
 import com.example.ecommapi.services.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;

@@ -1,7 +1,6 @@
 package com.example.ecommapi.services;
 
 import com.example.ecommapi.entities.Cart;
-
 import java.util.UUID;
 
 public interface CartService {

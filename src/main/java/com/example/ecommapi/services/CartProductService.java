@@ -1,9 +1,6 @@
 package com.example.ecommapi.services;
 
-import com.example.ecommapi.DTOs.productDto.ProductRequest;
 import com.example.ecommapi.entities.CartProduct;
-
-import java.util.Collection;
 import java.util.UUID;
 
 public interface CartProductService {
