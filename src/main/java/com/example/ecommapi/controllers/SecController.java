@@ -1,5 +1,7 @@
 package com.example.ecommapi.controllers;
 
+import com.example.ecommapi.DTOs.userDto.UserLoginRequest;
+import com.example.ecommapi.DTOs.userDto.UserRegisterRequest;
 import com.example.ecommapi.entities.User;
 import com.example.ecommapi.services.serviceImpl.UserServiceImpl;
 import lombok.AllArgsConstructor;
@@ -25,15 +27,15 @@ public class SecController {
     private UserServiceImpl userService;
     private PasswordEncoder passwordEncoder;
     @PostMapping("/login")
-    public Map<String, String> login(String username, String password){
+    public Map<String, String> login(UserLoginRequest userLoginRequest){
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginRequest.username(), userLoginRequest.password()));
 
         Instant instant = Instant.now();
         String scope = authentication.getAuthorities().stream().map(a->a.getAuthority()).collect(Collectors.joining(" "));
         JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                 .issuedAt(instant.plus(10, ChronoUnit.MINUTES))
-                .subject(username)
+                .subject(userLoginRequest.username())
                 .claim("scope", scope)
                 .build();
 
@@ -46,15 +48,15 @@ public class SecController {
     }
 
     @PostMapping("/signup")
-    public Map<String, String> signup(@RequestBody User userParam){
+    public Map<String, String> signup(@RequestBody UserRegisterRequest userRegisterRequest){
 
-        User user = userService.addUser(userParam.getUsername(), passwordEncoder.encode(userParam.getPassword()), userParam.getEmail(), userParam.getPhoneNumber(), userParam.getName());
+        User user = userService.addUser(userRegisterRequest.username(), passwordEncoder.encode(userRegisterRequest.password()), userRegisterRequest.email(), userRegisterRequest.phoneNumber(),userRegisterRequest.name());
         if(!(user == null)) {
             Instant instant = Instant.now();
 
             JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                     .issuedAt(instant.plus(10, ChronoUnit.MINUTES))
-                    .subject(userParam.getUsername())
+                    .subject(userRegisterRequest.username())
                     .claim("scope", "user")
                     .build();
 
