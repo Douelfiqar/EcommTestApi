@@ -1,6 +1,8 @@
 package com.example.ecommapi.controllers;
 
 import com.example.ecommapi.entities.Cart;
+import com.example.ecommapi.entities.CartProduct;
+import com.example.ecommapi.services.CartProductService;
 import com.example.ecommapi.services.CartService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,20 +17,21 @@ import java.util.UUID;
 public class CartController {
 
     private CartService cartService;
+    private CartProductService cartProductService;
     @GetMapping("/addCart")
-    public Cart addCart(@RequestParam(name = "cart_id") UUID cartId,
+    public ResponseEntity<CartProduct> addCart(@RequestParam(name = "cart_id") UUID cartId,
                         @RequestParam(name = "id_product") UUID productId,
                         @RequestParam(name = "quantity") int quantity,
                         @RequestParam(name = "color") String color) {
-        Cart cart = cartService.addCart(cartId, quantity, color, productId);
-        return cart;
+        CartProduct cartProduct = cartProductService.addNewProductCart(cartId, quantity, color, productId);
+        return ResponseEntity.ok(cartProduct);
     }
 
 
     @GetMapping("/getCart/{id}")
-    public Cart getCart(@PathVariable UUID user_id){
+    public ResponseEntity<Cart> getCart(@PathVariable UUID user_id){
         Cart cart = cartService.getCart(user_id);
-        return cart;
+        return ResponseEntity.ok(cart);
     }
     @GetMapping("/deleteCart/{id}")
     public ResponseEntity<String> deleteCart(@PathVariable UUID cart_id){
@@ -37,11 +40,11 @@ public class CartController {
     }
 
     @GetMapping("/updateCart")
-    public ResponseEntity<Cart> cartUpdate(@RequestParam(name = "cartProduct_id")  UUID cartProduct_id,
+    public ResponseEntity<CartProduct> cartUpdate(@RequestParam(name = "cartProduct_id")  UUID cartProduct_id,
                                            @RequestParam(name = "quantity") int quantity,
                                            @RequestParam(name = "color") String color){
 
-        Cart cart = cartService.cartUpdate(cartProduct_id, quantity, color);
-        return ResponseEntity.ok(cart);
+        CartProduct cartProduct = cartProductService.updateOldCartProduct(cartProduct_id, quantity, color);
+        return ResponseEntity.ok(cartProduct);
     }
 }

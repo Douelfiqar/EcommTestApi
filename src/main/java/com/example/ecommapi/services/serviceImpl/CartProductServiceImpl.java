@@ -20,22 +20,20 @@ public class CartProductServiceImpl implements CartProductService {
     private CartServiceImpl cartService;
     private ProductService productService;
     private CartProductRepo cartProductRepo;
+
     @Override
-    public CartProduct addNewCartProduct(UUID cart_id, int quantity, String color, UUID product_id) {
-        Cart cart = cartService.getCart(cart_id);
-        Product product = productService.getSingleProduct(product_id);
+    public CartProduct addNewProductCart(UUID cart_id, int quantity, String color, UUID product_id) {
         Collection<String> colors = new ArrayList<>();
         colors.add(color);
-
-        CartProduct cartProduct = CartProduct.builder()
-                .cart(cart)
+        Product product = productService.getSingleProduct(product_id);
+        Cart cart = cartService.getCart(cart_id);
+        CartProduct cartProduct = CartProduct.builder().colors(colors)
                 .product(product)
-                .date(new Date())
-                .colors(colors)
-                .quantity(quantity).build();
-        cartProductRepo.save(cartProduct);
+                .cart(cart)
+                .quantity(quantity)
+                .date(new Date()).build();
 
-        return cartProduct;
+        return cartProductRepo.save(cartProduct);
     }
 
     @Override
