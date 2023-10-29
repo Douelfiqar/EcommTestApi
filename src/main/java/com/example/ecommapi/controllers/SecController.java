@@ -3,6 +3,7 @@ package com.example.ecommapi.controllers;
 import com.example.ecommapi.DTOs.userDto.UserLoginRequest;
 import com.example.ecommapi.DTOs.userDto.UserRegisterRequest;
 import com.example.ecommapi.entities.User;
+import com.example.ecommapi.services.CartService;
 import com.example.ecommapi.services.serviceImpl.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +27,7 @@ public class SecController {
     private JwtEncoder jwtEncoder;
     private UserServiceImpl userService;
     private PasswordEncoder passwordEncoder;
+    private CartService cartService;
     @PostMapping("/login")
     public Map<String, String> login(UserLoginRequest userLoginRequest){
 

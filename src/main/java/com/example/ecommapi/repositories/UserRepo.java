@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface UserRepo extends JpaRepository<User, String> {
+public interface UserRepo extends JpaRepository<User, UUID> {
     User findByUsername(String username);
     @Query("SELECT u.cart FROM User u WHERE u.id = :userId")
     Cart findCartByUserId(@Param("userId") UUID userId);

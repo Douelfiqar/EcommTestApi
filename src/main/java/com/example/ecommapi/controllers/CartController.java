@@ -2,6 +2,8 @@ package com.example.ecommapi.controllers;
 
 import com.example.ecommapi.entities.Cart;
 import com.example.ecommapi.entities.CartProduct;
+import com.example.ecommapi.entities.User;
+import com.example.ecommapi.repositories.UserRepo;
 import com.example.ecommapi.services.CartProductService;
 import com.example.ecommapi.services.CartService;
 import lombok.AllArgsConstructor;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -18,6 +22,17 @@ public class CartController {
 
     private CartService cartService;
     private CartProductService cartProductService;
+    private UserRepo userRepo;
+
+    @GetMapping("/users")
+    public List<User> userList(){
+        return userRepo.findAll();
+    }
+    @GetMapping("/createCart/{user_id}")
+    public ResponseEntity<Cart> createCartForUser(@PathVariable UUID user_id){
+        Cart cart = cartService.createCartForUser(user_id);
+        return ResponseEntity.ok(cart);
+    }
     @GetMapping("/addCart")
     public ResponseEntity<CartProduct> addCart(@RequestParam(name = "cart_id") UUID cartId,
                         @RequestParam(name = "id_product") UUID productId,
@@ -26,7 +41,6 @@ public class CartController {
         CartProduct cartProduct = cartProductService.addNewProductCart(cartId, quantity, color, productId);
         return ResponseEntity.ok(cartProduct);
     }
-
 
     @GetMapping("/getCart/{id}")
     public ResponseEntity<Cart> getCart(@PathVariable UUID user_id){
