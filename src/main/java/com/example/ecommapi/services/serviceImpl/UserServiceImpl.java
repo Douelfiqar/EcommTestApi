@@ -6,6 +6,8 @@ import com.example.ecommapi.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -16,6 +18,8 @@ public class UserServiceImpl implements UserService {
             return userRepo.save(User.builder().name(name).username(username).password(password).email(email).phoneNumber(phoneNumber).build());
     }
 
-
+    public User getUserById(UUID id){
+        return userRepo.findById(id).orElseThrow();
+    }
 
 }

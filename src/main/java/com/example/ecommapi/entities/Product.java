@@ -47,7 +47,8 @@ public class Product {
      @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
      @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
      private Collection<LigneCommande> ligneCommandeCollection;
-     @OneToMany
+     @OneToMany(mappedBy = "product")
+     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
      private List<CartProduct> cartProductList;
     
 }

@@ -20,11 +20,12 @@ public class CartServiceImpl implements CartService {
     public Cart createCartForUser(UUID user_id){
         User user = userRepo.findById(user_id).orElseThrow();
         Cart cart = Cart.builder().user(user).build();
-        return cartRepo.save(cart);
+        cart = cartRepo.save(cart);
+        return cart;
     }
     @Override
-    public Cart getCart(UUID user_id) {
-        Cart cart = userRepo.findCartByUserId(user_id);
+    public Cart getCart(UUID cart_id) {
+        Cart cart = cartRepo.findById(cart_id).orElseThrow();
         return cart;
     }
 

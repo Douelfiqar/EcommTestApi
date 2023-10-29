@@ -3,6 +3,7 @@ package com.example.ecommapi.controllers;
 import com.example.ecommapi.entities.Cart;
 import com.example.ecommapi.entities.CartProduct;
 import com.example.ecommapi.entities.User;
+import com.example.ecommapi.repositories.CartRepo;
 import com.example.ecommapi.repositories.UserRepo;
 import com.example.ecommapi.services.CartProductService;
 import com.example.ecommapi.services.CartService;
@@ -23,10 +24,15 @@ public class CartController {
     private CartService cartService;
     private CartProductService cartProductService;
     private UserRepo userRepo;
+    private CartRepo cartRepo;
 
     @GetMapping("/users")
     public List<User> userList(){
         return userRepo.findAll();
+    }
+    @GetMapping("/allCarts")
+    public List<Cart> cartList(){
+        return cartRepo.findAll();
     }
     @GetMapping("/createCart/{user_id}")
     public ResponseEntity<Cart> createCartForUser(@PathVariable UUID user_id){
@@ -42,7 +48,7 @@ public class CartController {
         return ResponseEntity.ok(cartProduct);
     }
 
-    @GetMapping("/getCart/{id}")
+    @GetMapping("/getCart/{user_id}")
     public ResponseEntity<Cart> getCart(@PathVariable UUID user_id){
         Cart cart = cartService.getCart(user_id);
         return ResponseEntity.ok(cart);

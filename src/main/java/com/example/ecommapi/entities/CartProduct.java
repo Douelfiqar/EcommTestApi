@@ -1,5 +1,6 @@
 package com.example.ecommapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +22,9 @@ public class CartProduct {
     @CollectionTable(name = "colors_selcted_cart", joinColumns = @JoinColumn(name = "cart_id"))
     private Collection<String> colors = new ArrayList<>();
     @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Product product;
     @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Cart cart;
 }
