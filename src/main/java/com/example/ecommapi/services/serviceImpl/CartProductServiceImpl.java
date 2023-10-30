@@ -11,10 +11,8 @@ import com.example.ecommapi.services.ProductService;
 import com.example.ecommapi.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.UUID;
+
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -30,27 +28,26 @@ public class CartProductServiceImpl implements CartProductService {
         Product product = productService.getSingleProduct(product_id);
         Cart cart = cartService.getCart(cart_id);
 
-        CartProduct cartProduct = CartProduct.builder().colors(colors)
-                .product(product)
-                .cart(cart)
-                .quantity(quantity)
-                .date(new Date()).build();
-
-        return cartProductRepo.save(cartProduct);
+        CartProduct cartProduct = CartProduct.builder().colors(colors).product(product).cart(cart).quantity(quantity).date(new Date()).build();
+        cartProductRepo.save(cartProduct);
+        return cartProduct;
     }
 
     @Override
     public CartProduct updateOldCartProduct(UUID cartProduct_id, int quantity, String color){
 
-        CartProduct cartProduct = cartProductRepo.findById(cartProduct_id).orElseThrow();
-        Collection<String> updatedColors = new ArrayList<>(cartProduct.getColors());
-
-        int newQantity = cartProduct.getQuantity() + quantity;
-        CartProduct cartProduct1 = CartProduct.builder()
-                .product(cartProduct.getProduct())
-                .quantity(newQantity)
-                .colors(updatedColors)
-                .cart(cartProduct.getCart()).build();
+        Optional<CartProduct> cartProductOptional = cartProductRepo.findById(cartProduct_id);
+        CartProduct cartProduct;
+        if (cartProductOptional.isPresent()) {
+            cartProduct = cartProductOptional.get();
+        }
+        else{
+            cartProduct = cartProductOptional.orElseThrow(() -> new RuntimeException("CartProduct not found"));
+        }
+                Collection<String> updatedColors = new ArrayList<>(cartProduct.getColors());
+        updatedColors.add(color);
+        int newQantity = quantity;
+        CartProduct cartProduct1 = CartProduct.builder().product(cartProduct.getProduct()).quantity(newQantity).colors(updatedColors).cart(cartProduct.getCart()).build();
         return cartProduct1;
     }
 
