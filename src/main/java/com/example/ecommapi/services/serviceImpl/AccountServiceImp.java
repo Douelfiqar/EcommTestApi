@@ -1,9 +1,7 @@
 package com.example.ecommapi.services.serviceImpl;
 
 
-import com.example.ecommapi.entities.AppRole;
 import com.example.ecommapi.entities.User;
-import com.example.ecommapi.repositories.AppRoleRepo;
 import com.example.ecommapi.repositories.UserRepo;
 import com.example.ecommapi.services.AccountService;
 import jakarta.transaction.Transactional;
@@ -11,14 +9,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 @Transactional
 @AllArgsConstructor
 public class AccountServiceImp implements AccountService {
     private UserRepo userRepo;
-    private AppRoleRepo appRoleRepo;
     // private PasswordEncoder passwordEncoder;
 
 
@@ -38,29 +33,20 @@ public class AccountServiceImp implements AccountService {
         return savedUser;
     }
 
-    @Override
-    public AppRole addRole(String role) {
-        AppRole appRole = appRoleRepo.findById(role).orElse(null);
-        if(appRole != null) throw new RuntimeException("This role already exist");
-        AppRole appRole1 = new AppRole(role);
+    //@Override
+    //public void addUserRole(String username, String role) {
+        //    User user = userRepo.findByUsername(username);
+      //      AppRole appRole = appRoleRepo.findById(role).orElse(null);
+    //        user.getAppRoleCollection().add(appRole);
+   // }
 
-        return appRoleRepo.save(appRole1);
-    }
-
-    @Override
-    public void addUserRole(String username, String role) {
-            User user = userRepo.findByUsername(username);
-            AppRole appRole = appRoleRepo.findById(role).orElse(null);
-            user.getAppRoleCollection().add(appRole);
-    }
-
-    @Override
-    public void removeRoleFromUser(String username, String role) {
-        User user = userRepo.findByUsername(username);
-        AppRole appRole = appRoleRepo.findById(role).orElse(null);
-
-        user.getAppRoleCollection().remove(appRole);
-    }
+    //@Override
+    //public void removeRoleFromUser(String username, String role) {
+    //    User user = userRepo.findByUsername(username);
+    //    AppRole appRole = appRoleRepo.findById(role).orElse(null);
+//
+    //    user.getAppRoleCollection().remove(appRole);
+    //}
 
     @Override
     public User findUserByUsername(String username) {

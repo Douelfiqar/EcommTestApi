@@ -1,24 +1,17 @@
 package com.example.ecommapi;
 
-import com.example.ecommapi.entities.AppRole;
 import com.example.ecommapi.entities.Product;
-import com.example.ecommapi.entities.User;
-import com.example.ecommapi.repositories.AppRoleRepo;
 import com.example.ecommapi.repositories.ProductRepo;
 import com.example.ecommapi.repositories.UserRepo;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -32,36 +25,9 @@ public class EcommApiApplication {
 
     ProductRepo productRepo;
     UserRepo userRepo;
-    AppRoleRepo appRoleRepo;
 
-    CommandLineRunner commandLineRunner2(){
-        return args -> {
-           User user = new User();
-            user.setName("vom");
-            user.setPassword(new BCryptPasswordEncoder().encode("1234"));
-            user.setEmail("cs1.6");
-            user.setPhoneNumber("061231");
-             user.setUsername("vompiro");
-            Collection<AppRole> appRoleCollection2 = new ArrayList<>();
-            appRoleCollection2.add(new AppRole("USER"));
-            userRepo.save(user);
-            User user1 = new User();
-            user1.setName("idriss");
-            user1.setPassword(new BCryptPasswordEncoder().encode("1234"));
-            user1.setEmail("fts");
-            user1.setPhoneNumber("0562211");
-            user1.setUsername("fc03");
-            Collection<AppRole> appRoleCollection = new ArrayList<>();
-            appRoleCollection2.add(new AppRole("ADMIN"));
-            userRepo.save(user1);
-            //appRoleCollection2.add(new AppRole("U"));
-            //User user1 = userRepo.findByUsername("fc03");
-            //Collection<AppRole> appRoleCollection2 = user1.getAppRoleCollection();
-            //appRoleCollection2.add(new AppRole("ADMIN"));
-            //userRepo.save(user1);
 
-        };
-    }
+
 
     CommandLineRunner commandLineRunner(){
         return args -> {

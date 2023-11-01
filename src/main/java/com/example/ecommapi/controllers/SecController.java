@@ -2,6 +2,7 @@ package com.example.ecommapi.controllers;
 
 import com.example.ecommapi.DTOs.userDto.UserLoginRequest;
 import com.example.ecommapi.DTOs.userDto.UserRegisterRequest;
+import com.example.ecommapi.entities.Cart;
 import com.example.ecommapi.entities.User;
 import com.example.ecommapi.services.CartService;
 import com.example.ecommapi.services.serviceImpl.UserServiceImpl;
@@ -50,9 +51,12 @@ public class SecController {
     }
 
     @PostMapping("/signup")
-    public Map<String, String> signup(@RequestBody UserRegisterRequest userRegisterRequest){
+    public Map<String, String> signup(UserRegisterRequest userRegisterRequest){
 
         User user = userService.addUser(userRegisterRequest.username(), passwordEncoder.encode(userRegisterRequest.password()), userRegisterRequest.email(), userRegisterRequest.phoneNumber(),userRegisterRequest.name());
+        User user1 = userService.getUserByUsername(userRegisterRequest.username());
+        Cart cart = cartService.createCartForUser(user1.getId());
+
         if(!(user == null)) {
             Instant instant = Instant.now();
 

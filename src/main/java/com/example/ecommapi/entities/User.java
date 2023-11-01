@@ -1,5 +1,6 @@
 package com.example.ecommapi.entities;
 
+import com.example.ecommapi.models.TypeUser;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -29,8 +30,10 @@ public class User {
     private String phoneNumber;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Collection<Commande> commandesList;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<AppRole> appRoleCollection;
+    //@ManyToMany(fetch = FetchType.EAGER)
+    //private Collection<AppRole> appRoleCollection;
+    @Enumerated(EnumType.STRING)
+    private Collection<TypeUser> typeUsers;
     @OneToOne(mappedBy = "user")
     private Cart cart;
 }
