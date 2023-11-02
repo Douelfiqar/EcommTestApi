@@ -31,9 +31,9 @@ public class SecController {
     private CartService cartService;
     @PostMapping("/login")
     public Map<String, String> login(UserLoginRequest userLoginRequest){
-
+        System.out.println("login");
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginRequest.username(), userLoginRequest.password()));
-
+        System.out.println(authentication);
         Instant instant = Instant.now();
         String scope = authentication.getAuthorities().stream().map(a->a.getAuthority()).collect(Collectors.joining(" "));
         JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
